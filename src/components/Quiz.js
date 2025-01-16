@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Button, Typography, Box, Chip, LinearProgress, Snackbar, Alert } from "@mui/material";
+import { pink, purple, red } from "@mui/material/colors";
 
 const questions = [
-    { question: "Where was our first date?", options: ["Park", "Restaurant", "Beach"], answer: "Restaurant" },
-    { question: "What’s my favorite movie?", options: ["Inception", "Titanic", "Interstellar"], answer: "Inception" },
+    { question: "Where was our first date?", options: ["Park", "Restaurant", "Amusement Park"], answer: "Amusement Park" },
+    { question: "What color were you wearing when i first saw you?", options: ["Red", "Purple", "Orange"], answer: "Orange" },
     // { question: "What’s my favorite color?", options: ["Red", "Blue", "Green"], answer: "Blue" },
-    // { question: "What’s my dream destination?", options: ["Paris", "Maldives", "Tokyo"], answer: "Maldives" },
-    // { question: "Which food do I love?", options: ["Pizza", "Sushi", "Burger"], answer: "Pizza" },
-    // { question: "What’s my pet’s name?", options: ["Buddy", "Max", "Charlie"], answer: "Buddy" },
-    // { question: "What’s my favorite hobby?", options: ["Reading", "Cooking", "Traveling"], answer: "Reading" },
-    // { question: "What’s my zodiac sign?", options: ["Gemini", "Leo", "Taurus"], answer: "Gemini" },
+    // { question: "What’s my type?", options: ["Straight Hair with Intelligence", "Bunny Teeth Smile", "Slim Bod"], answer: "Bunny Teeth Smile" },
+    // { question: "Who is Panda Singh going to marry?", options: ["Tommy Singh", "Potty Kapoor", "Aloo Kachaloo"], answer: "Tommy Singh" },
+    // { question: "How many kids do we want?", options: ["One", "Seven", "Three"], answer: "One" },
+    // { question: "What’s our favorite activity to do together?", options: ["Movie Cuddles", "Cooking", "Traveling"], answer: "Movie Cuddles" },
+    // { question: "What food am i willing to give up on?", options: ["Panner", "Rajma", "Chicken"], answer: "Chicken" },
 ];
 
 function Quiz({ onFinish }) {
@@ -24,10 +25,10 @@ function Quiz({ onFinish }) {
 
         if (isCorrect) {
             setScore((prev) => prev + 1);
-            setFeedbackMessage("🎉 Correct! You know me so well!");
+            setFeedbackMessage("🎉 Correct! Our relationship is definitely safe with you!");
             setFeedbackSeverity("success");
         } else {
-            setFeedbackMessage("😢 Oops! That’s not it.");
+            setFeedbackMessage("😢 Oops! That’s not it. Very Disappointing!");
             setFeedbackSeverity("error");
         }
 
@@ -40,29 +41,27 @@ function Quiz({ onFinish }) {
             } else {
                 onFinish(score + (isCorrect ? 1 : 0)); // Add the last question's score
             }
-        }, 1500); // Delay before moving to the next question
+        }, 1000); // Delay before moving to the next question
     };
 
     const progress = ((currentQuestion + 1) / questions.length) * 100;
 
     return (
         <Box display="flex" flexDirection="column" alignItems="center" p={3}>
-            {/* Progress Bar */}
-            <LinearProgress variant="determinate" value={progress} sx={{ width: "100%", mb: 2 }} />
-            <Typography variant="h6" mb={1}>
+            <LinearProgress variant="determinate" value={progress} sx={{ width: "100%", mb: 2, color: pink[500] }} />
+            <Typography variant="h6" mb={1} color={purple['A200']}>
                 Question {currentQuestion + 1} / {questions.length}
             </Typography>
 
-            {/* Question */}
-            <Typography variant="h5" textAlign="center" mb={2}>
+            <Typography variant="h5" textAlign="center" mb={2} color={purple['A400']}>
                 {questions[currentQuestion].question}
             </Typography>
 
-            {/* Options */}
             {questions[currentQuestion].options.map((option, index) => (
                 <Button
                     key={index}
                     variant="outlined"
+                    color="error"
                     sx={{
                         margin: "8px",
                         width: "100%",
@@ -76,14 +75,12 @@ function Quiz({ onFinish }) {
                 </Button>
             ))}
 
-            {/* Score */}
             <Chip
                 label={`Score: ${score}`}
-                color="primary"
+                color="error"
                 sx={{ mt: 2, fontSize: "16px", fontWeight: "bold" }}
             />
 
-            {/* Feedback Snackbar */}
             <Snackbar open={showFeedback} autoHideDuration={1500}>
                 <Alert severity={feedbackSeverity} sx={{ width: "100%" }}>
                     {feedbackMessage}
