@@ -33,6 +33,7 @@ function Scrapbook({ onComplete, audioStarted, startAudio }) {
 
         Promise.all(preloadImages.map((img) => new Promise((resolve) => img.onload = resolve)))
             .then(() => setImagesLoaded(true));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, pages.length - 1));
