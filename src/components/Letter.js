@@ -66,9 +66,13 @@ function Letter({ onDone }) {
 
                 I wanted to take a moment to write you this letter to share my deep love and appreciation for you—and yes, maybe show off my coding skills too (after all, you deserve nothing but the best!).
 
-                It’s been an amazing journey with you, and we’ve faced so much together. I’m incredibly proud of all we’ve accomplished and the beautiful life we’re continuing to build together.
+                It’s been an amazing journey with you, and we’ve faced so much together. From watching you outside my classroom window to waking up beside you, every moment with you is pure magic.
 
-                You’ve filled my life with so much happiness and love. I’m grateful for every moment we’ve shared and look forward to all the memories yet to come. You’re my sunshine and my heart. ❤️
+                I’m incredibly proud of all we’ve accomplished and the beautiful life we’re continuing to build together.
+
+                You’ve filled my life with so much happiness and love. I’m grateful for every moment we’ve shared and look forward to all the memories yet to come.
+
+                You’re my sunshine and my heart. ❤️
             </Typography>
 
             {/* Signature */}

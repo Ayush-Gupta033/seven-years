@@ -10,11 +10,15 @@ function Scrapbook({ onComplete, audioStarted, startAudio }) {
     const [currentPage, setCurrentPage] = useState(0);
 
     const pages = [
-        { image: "/assets/images/img1.jpeg", text: "Happy Anniversary to us! Who knew forever could be this fun?" },
+        { image: "/assets/images/img0.jpeg", text: "Happy Anniversary to us! Who knew forever could be this fun? 💕" },
         { image: "/assets/images/img1.jpeg", text: "This is a tribute to us, We're meant to be forever" },
-        { image: "/assets/images/img1.jpeg", text: "We started as a couple, but we’ve grown into the best part of each other." },
-        { image: "/assets/images/img1.jpeg", text: "I'll always belong to you." },
-        { image: "/assets/images/img1.jpeg", text: "You, me, and forever. Here’s to all our memories and the many more to come!" },
+        { image: "/assets/images/img2.jpeg", text: "We started as a couple, but we’ve grown into the best part of each other." },
+        { image: "/assets/images/img3.jpeg", text: "No matter where life takes us, my heart will always belong to you. 💖" },
+        { image: "/assets/images/img4.jpeg", text: "You, me, and forever. Here’s to all our memories and the many more to come!" },
+        { image: "/assets/images/img5.jpeg", text: "No matter the countless moments, every single one with you is special. 💫" },
+        { image: "/assets/images/img6.jpeg", text: "Our one of the first's that i'll cherish forever." },
+        { image: "/assets/images/img7.jpeg", text: "With you, every day feels like a love story. Here’s to us! ❤️" },
+
     ];
 
     const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, pages.length - 1));
@@ -28,7 +32,7 @@ function Scrapbook({ onComplete, audioStarted, startAudio }) {
                 </Button>
             )}
 
-            {!audioStarted && (
+            {audioStarted && (
                 <>
                     <Box
                         key={currentPage}
@@ -36,7 +40,8 @@ function Scrapbook({ onComplete, audioStarted, startAudio }) {
                         src={pages[currentPage].image}
                         alt="Scrapbook Page"
                         sx={{
-                            width: "32rem",
+                            height: "45rem",
+                            width: "33rem",
                             borderRadius: "8px",
                             marginBottom: 2,
                             opacity: 0,
@@ -45,18 +50,18 @@ function Scrapbook({ onComplete, audioStarted, startAudio }) {
                         }}
                     />
                     <Typography variant="h6" align="center" sx={{
-                        animation: "fadeIn 1s forwards", color: pink[500], fontFamily: "'Dancing Script', cursive", // Applying the romantic font
+                        animation: "fadeIn 1s forwards", transition: "opacity 1s ease-in-out", color: pink[500], fontFamily: "'Dancing Script', cursive", // Applying the romantic font
                         fontSize: "2rem",
                         letterSpacing: "0.1rem",
                     }}>
                         {pages[currentPage].text}
                     </Typography>
                     <Box mt={2}>
-                        <Button onClick={prevPage} disabled={currentPage === 0} variant="contained" sx={{ mr: 1 }}>
+                        <Button onClick={prevPage} disabled={currentPage === 0} variant="contained" color="error" sx={{ mr: 1 }}>
                             Previous
                         </Button>
                         {currentPage < pages.length - 1 ? (
-                            <Button onClick={nextPage} variant="contained">
+                            <Button onClick={nextPage} variant="contained" color="error">
                                 Next
                             </Button>
                         ) : (

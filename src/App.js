@@ -50,7 +50,7 @@ function App() {
   const [audioStarted, setAudioStarted] = useState(false);
   const [audioPaused, setAudioPaused] = useState(false);
   const [audio, setAudio] = useState(null);
-  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [currentSongIndex, setCurrentSongIndex] = useState(null);
   const [hearts, setHearts] = useState([]);
 
   // List of songs to play
@@ -61,14 +61,18 @@ function App() {
     "/assets/audio/Perfect.mp3",
   ];
 
-  // Start playing the audio
-  const startAudio = () => {
-    const newAudio = new Audio(songs[currentSongIndex]);
-    newAudio.loop = true;
-    newAudio.play();
-    setAudio(newAudio);
-    setAudioStarted(true);
-  };
+  // // Start playing the audio
+  // const startAudio = () => {
+  //   const newAudio = new Audio(songs[currentSongIndex]);
+
+  //   newAudio.addEventListener("ended", () => {
+  //     nextSong(); // Automatically play the next song when one ends
+  //   });
+  //   // newAudio.loop = true;
+  //   newAudio.play();
+  //   setAudio(newAudio);
+  //   setAudioStarted(true);
+  // };
 
   // Pause the audio
   const pauseAudio = () => {
@@ -86,18 +90,56 @@ function App() {
     }
   };
 
-  // Skip to the next song
-  const nextSong = () => {
+  // // Skip to the next song
+  // const nextSong = () => {
+  //   if (audio) {
+  //     audio.pause();
+  //   }
+  //   const nextIndex = (currentSongIndex + 1) % songs.length;
+  //   setCurrentSongIndex(nextIndex);
+  //   const newAudio = new Audio(songs[nextIndex]);
+  //   newAudio.addEventListener("ended", () => {
+  //     nextSong(); // Continue playing the next song automatically
+  //   });
+  //   // newAudio.loop = true;
+  //   newAudio.play();
+  //   setAudio(newAudio);
+  // };
+
+  useEffect(() => {
+    if (!audioStarted) return;
+
     if (audio) {
-      audio.pause();
+      audio.pause(); // Stop the previous audio
     }
-    const nextIndex = (currentSongIndex + 1) % songs.length;
-    setCurrentSongIndex(nextIndex);
-    const newAudio = new Audio(songs[nextIndex]);
-    newAudio.loop = true;
+
+    const newAudio = new Audio(songs[currentSongIndex]);
+    newAudio.addEventListener("ended", () => {
+      setCurrentSongIndex((prevIndex) => (prevIndex + 1) % songs.length);
+    });
+    console.log('play', currentSongIndex);
     newAudio.play();
     setAudio(newAudio);
+
+    return () => {
+      newAudio.pause();
+      newAudio.removeEventListener("ended", () => { });
+    };
+  }, [currentSongIndex]); // Trigger effect when song index changes
+
+  // Start playing the first audio
+  const startAudio = () => {
+    if (!audioStarted) {
+      setCurrentSongIndex(0); // Ensure it starts from the first song
+      setAudioStarted(true);
+    }
   };
+
+  // Skip to the next song manually
+  const nextSong = () => {
+    setCurrentSongIndex((prevIndex) => (prevIndex + 1) % songs.length);
+  };
+
 
   // Function to generate random positions for hearts
   const generateRandomHearts = () => {
@@ -143,25 +185,27 @@ function App() {
       {step === 2 && <Quiz onFinish={(score) => { setQuizScore(score); setStep(3); }} />}
       {step === 3 && <Letter onDone={() => setStep(1)} />}
       <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
-        {!audioPaused && (
+        {!audioPaused && audioStarted && (
           <IconButton variant="outlined" onClick={pauseAudio} disabled={!audioStarted} sx={{ mx: 1 }}>
             <Tooltip title="Pause Song">
               <PauseIcon fontSize="large" sx={{ color: pink[500] }} />
             </Tooltip>
           </IconButton>
         )}
-        {audioPaused && (
+        {audioPaused && audioStarted && (
           <IconButton variant="outlined" onClick={playAudio} disabled={!audioStarted}>
             <Tooltip title="Play Music">
               <PlayArrowIcon fontSize="large" sx={{ color: pink[500] }} />
             </Tooltip>
           </IconButton>
         )}
-        <IconButton variant="outlined" onClick={nextSong} sx={{ mx: 1 }}>
-          <Tooltip title="Next Music">
-            <SkipNextIcon fontSize="large" sx={{ color: pink[500] }} />
-          </Tooltip>
-        </IconButton>
+        {audioStarted && (
+          <IconButton variant="outlined" onClick={nextSong} sx={{ mx: 1 }}>
+            <Tooltip title="Next Music">
+              <SkipNextIcon fontSize="large" sx={{ color: pink[500] }} />
+            </Tooltip>
+          </IconButton>
+        )}
       </Box>
 
       {/* Floating Hearts */}
