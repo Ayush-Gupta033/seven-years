@@ -51,6 +51,9 @@ const imagePaths = [
   "/assets/assets/images/img2.jpeg",
   "/assets/assets/images/img3.jpeg",
   "/assets/assets/images/img4.jpeg",
+  "/assets/assets/images/img5.jpeg",
+  "/assets/assets/images/img6.jpeg",
+  "/assets/assets/images/img6.jpeg",
   "/assets/images/letter.jpg",
 ];
 
