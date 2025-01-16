@@ -72,6 +72,10 @@ function Letter({ onDone }) {
 
                 You’ve filled my life with so much happiness and love. I’m grateful for every moment we’ve shared and look forward to all the memories yet to come.
 
+                <br/>
+                I hope you liked this little surprise of mine and also check you're email na babe 😘.
+                <br/>
+
                 You’re my sunshine and my heart. ❤️
             </Typography>
 
