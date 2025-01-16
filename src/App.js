@@ -45,13 +45,13 @@ const FloatingHearts = styled(Box)(({ theme }) => ({
 }));
 
 const imagePaths = [
-  "/public/assets/images/bgImg.jpg",
-  "/public/assets/assets/images/img0.jpeg",
-  "/public/assets/assets/images/img1.jpeg",
-  "/public/assets/assets/images/img2.jpeg",
-  "/public/assets/assets/images/img3.jpeg",
-  "/public/assets/assets/images/img4.jpeg",
-  "/public/assets/images/letter.jpg",
+  "/assets/images/bgImg.jpg",
+  "/assets/assets/images/img0.jpeg",
+  "/assets/assets/images/img1.jpeg",
+  "/assets/assets/images/img2.jpeg",
+  "/assets/assets/images/img3.jpeg",
+  "/assets/assets/images/img4.jpeg",
+  "/assets/images/letter.jpg",
 ];
 
 function preloadImages(images) {
