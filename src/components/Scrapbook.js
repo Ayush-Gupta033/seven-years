@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Box, Typography } from "@mui/material";
 import { pink } from "@mui/material/colors";
+
+// Add link to Google Fonts
 const link = document.createElement('link');
 link.rel = 'stylesheet';
 link.href = 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap';
@@ -8,6 +10,7 @@ document.head.appendChild(link);
 
 function Scrapbook({ onComplete, audioStarted, startAudio }) {
     const [currentPage, setCurrentPage] = useState(0);
+    const [imagesLoaded, setImagesLoaded] = useState(false);
 
     const pages = [
         { image: "/assets/images/img0.jpeg", text: "Happy Anniversary to us! Who knew forever could be this fun? 💕" },
@@ -18,8 +21,19 @@ function Scrapbook({ onComplete, audioStarted, startAudio }) {
         { image: "/assets/images/img5.jpeg", text: "No matter the countless moments, every single one with you is special. 💫" },
         { image: "/assets/images/img6.jpeg", text: "Our one of the first's that i'll cherish forever." },
         { image: "/assets/images/img7.jpeg", text: "With you, every day feels like a love story. Here’s to us! ❤️" },
-
     ];
+
+    // Preload images when the component mounts
+    useEffect(() => {
+        const preloadImages = pages.map((page) => {
+            const img = new Image();
+            img.src = page.image;
+            return img;
+        });
+
+        Promise.all(preloadImages.map((img) => new Promise((resolve) => img.onload = resolve)))
+            .then(() => setImagesLoaded(true));
+    }, []);
 
     const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, pages.length - 1));
     const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
@@ -34,42 +48,48 @@ function Scrapbook({ onComplete, audioStarted, startAudio }) {
 
             {audioStarted && (
                 <>
-                    <Box
-                        key={currentPage}
-                        component="img"
-                        src={pages[currentPage].image}
-                        alt="Scrapbook Page"
-                        sx={{
-                            height: "45rem",
-                            width: "33rem",
-                            borderRadius: "8px",
-                            marginBottom: 2,
-                            opacity: 0,
-                            animation: "fadeIn 1s forwards",  // Animation for fade-in
-                            transition: "opacity 1s ease-in-out", // Smooth transition
-                        }}
-                    />
-                    <Typography variant="h6" align="center" sx={{
-                        animation: "fadeIn 1s forwards", transition: "opacity 1s ease-in-out", color: pink[500], fontFamily: "'Dancing Script', cursive", // Applying the romantic font
-                        fontSize: "2rem",
-                        letterSpacing: "0.1rem",
-                    }}>
-                        {pages[currentPage].text}
-                    </Typography>
-                    <Box mt={2}>
-                        <Button onClick={prevPage} disabled={currentPage === 0} variant="contained" color="error" sx={{ mr: 1 }}>
-                            Previous
-                        </Button>
-                        {currentPage < pages.length - 1 ? (
-                            <Button onClick={nextPage} variant="contained" color="error">
-                                Next
-                            </Button>
-                        ) : (
-                            <Button onClick={onComplete} variant="contained" color="success">
-                                Start Quiz
-                            </Button>
-                        )}
-                    </Box>
+                    {imagesLoaded ? (
+                        <>
+                            <Box
+                                key={currentPage}
+                                component="img"
+                                src={pages[currentPage].image}
+                                alt="Scrapbook Page"
+                                sx={{
+                                    height: "45rem",
+                                    width: "33rem",
+                                    borderRadius: "8px",
+                                    marginBottom: 2,
+                                    opacity: 0,
+                                    animation: "fadeIn 1s forwards",  // Animation for fade-in
+                                    transition: "opacity 1s ease-in-out", // Smooth transition
+                                }}
+                            />
+                            <Typography variant="h6" align="center" sx={{
+                                animation: "fadeIn 1s forwards", transition: "opacity 1s ease-in-out", color: pink[500], fontFamily: "'Dancing Script', cursive", // Applying the romantic font
+                                fontSize: "2rem",
+                                letterSpacing: "0.1rem",
+                            }}>
+                                {pages[currentPage].text}
+                            </Typography>
+                            <Box mt={2}>
+                                <Button onClick={prevPage} disabled={currentPage === 0} variant="contained" color="error" sx={{ mr: 1 }}>
+                                    Previous
+                                </Button>
+                                {currentPage < pages.length - 1 ? (
+                                    <Button onClick={nextPage} variant="contained" color="error">
+                                        Next
+                                    </Button>
+                                ) : (
+                                    <Button onClick={onComplete} variant="contained" color="success">
+                                        Start Quiz
+                                    </Button>
+                                )}
+                            </Box>
+                        </>
+                    ) : (
+                        <Typography variant="h6" color={pink[500]}>Having patience baby, our pictures are on the way...</Typography>
+                    )}
                 </>
             )}
 
