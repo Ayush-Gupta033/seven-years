@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Scrapbook from "./components/Scrapbook";
 import Quiz from "./components/Quiz";
 import Letter from "./components/Letter";
-import { Box, Button, Typography, IconButton, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -46,6 +46,7 @@ const FloatingHearts = styled(Box)(({ theme }) => ({
 
 function App() {
   const [step, setStep] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [quizScore, setQuizScore] = useState(0);
   const [audioStarted, setAudioStarted] = useState(false);
   const [audioPaused, setAudioPaused] = useState(false);
@@ -125,6 +126,7 @@ function App() {
       newAudio.pause();
       newAudio.removeEventListener("ended", () => { });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSongIndex]); // Trigger effect when song index changes
 
   // Start playing the first audio
