@@ -44,6 +44,26 @@ const FloatingHearts = styled(Box)(({ theme }) => ({
   },
 }));
 
+const imagePaths = [
+  "/public/assets/images/bgImg.jpg",
+  "/public/assets/assets/images/img0.jpeg",
+  "/public/assets/assets/images/img1.jpeg",
+  "/public/assets/assets/images/img2.jpeg",
+  "/public/assets/assets/images/img3.jpeg",
+  "/public/assets/assets/images/img4.jpeg",
+  "/public/assets/images/letter.jpg",
+];
+
+function preloadImages(images) {
+  images.forEach((image) => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.href = image;
+    link.as = 'image';
+    document.head.appendChild(link);
+  });
+}
+
 function App() {
   const [step, setStep] = useState(1);
   // eslint-disable-next-line no-unused-vars
@@ -53,6 +73,11 @@ function App() {
   const [audio, setAudio] = useState(null);
   const [currentSongIndex, setCurrentSongIndex] = useState(null);
   const [hearts, setHearts] = useState([]);
+
+  useEffect(() => {
+    // Preload all the images once the component mounts
+    preloadImages(imagePaths);
+  }, []);
 
   // List of songs to play
   const songs = [
